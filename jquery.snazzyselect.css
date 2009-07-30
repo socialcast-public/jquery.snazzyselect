@@ -1,4 +1,4 @@
-div.snazzy_selected, div.snazzy_faux_selected {
+div.snazzy_selected {
   display: inline;
   cursor: pointer;
   z-index: 100;

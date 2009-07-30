@@ -14,16 +14,14 @@
   		ESC: 27
   	};
   	var defaults = {
-  	  prefix: "snazzy_",
-  	  ulClass: "select",
-  	  selectedLiClass: "selected_item",
+  	  ulClass: "snazzy_select",
+  	  selectedLiClass: "snazzy_selected_item",
   	  currentSelectedLiClass: "current",
-  	  selectedDivClass: "selected",
+  	  selectedDivClass: "snazzy_selected",
   	  breakClass: "break",
   	  postElements: null,
   	  seperatePrompt: false,
   	  afterSelect: function(){},
-  	  fauxSelect: "faux_selected"
     };
 
     var options = $.extend({}, defaults, options);
@@ -33,7 +31,7 @@
 	  var parentDiv = select.parent('div');
 	  var ul;
 	  var currentSelectedElement = select.children("option:selected");
-	  var selectedDiv;
+	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass);
 	  var selectForm = select.closest("form");
 
 	  select.hide();
@@ -49,15 +47,14 @@
 	  }
 	  
   	function generateSnazzySelect(){
-  	  ul = $("<ul></ul>").addClass(cssClassWithPrefix(options.ulClass)).hide().appendTo($('body'));
-  	  selectedDiv = $("<div>" + currentSelectedElement.text() + "</div>").addClass(cssClassWithPrefix(options.selectedDivClass));
-  	  selectedDiv.click(toggleDiv);
+  	  ul = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
+  	  selectedDiv.text(currentSelectedElement.text()).click(toggleDiv);
   	  $("<span>&#9660;</span>").appendTo(selectedDiv);
   	  select.children("option").each(function(){
   	    var option = $(this);
 	      var li = $("<li></li>").html(option.text()).appendTo(ul).data('snazzy.selection', option);
 	      if(option.val() == currentSelectedElement.val()){
-	        li.addClass(cssClassWithPrefix(options.selectedLiClass)).addClass(cssClassWithPrefix(options.currentSelectedLiClass));
+	        li.addClass(options.selectedLiClass).addClass(options.currentSelectedLiClass);
 	      }
 	      li.mouseover(onHover);
         li.mouseout(outHover);
@@ -75,11 +72,7 @@
           li.click(liClick);
   	    });
   	  }
-  	  $('div.'+cssClassWithPrefix(options.fauxSelect)).remove();
   	  selectedDiv.appendTo(parentDiv);
-  	}
-  	function cssClassWithPrefix(cssClass){
-  	  return (options.prefix + cssClass);
   	}
   	function toggleDiv(e){
   	  if (ul.is(":hidden")) {
@@ -96,7 +89,7 @@
   	    case KEYS.RETURN:
   	    if(ul.is(":visible")){
     	    e.preventDefault();
-    	    var enteredLi = ul.children("li." + cssClassWithPrefix(options.selectedLiClass));
+    	    var enteredLi = ul.children("li." + options.selectedLiClass);
     	    if(enteredLi.children("a").size() == 0){
     	      selectLi(enteredLi);
     	    } else {
@@ -128,9 +121,9 @@
 	    }
   	}
   	function selectUp(e){
-  	  var currentlySelectedLi = ul.children("li."+cssClassWithPrefix(options.selectedLiClass));
+  	  var currentlySelectedLi = ul.children("li."+ options.selectedLiClass);
   	  var nextPotentialLi = currentlySelectedLi.prev("li");
-  	  if(nextPotentialLi.hasClass(cssClassWithPrefix(options.breakClass))){
+  	  if(nextPotentialLi.hasClass(options.breakClass)){
   	    nextPotentialLi = nextPotentialLi.prev("li");
   	  }
   	  if(nextPotentialLi.size() > 0){
@@ -138,9 +131,9 @@
 	    }
   	}
   	function selectDown(e){
-  	  var currentlySelectedLi = ul.children("li."+cssClassWithPrefix(options.selectedLiClass));
+  	  var currentlySelectedLi = ul.children("li."+ options.selectedLiClass);
   	  var nextPotentialLi = currentlySelectedLi.next("li");
-  	  if(nextPotentialLi.hasClass(cssClassWithPrefix(options.breakClass))){
+  	  if(nextPotentialLi.hasClass(options.breakClass)){
   	    nextPotentialLi = nextPotentialLi.next("li");
   	  }
   	  if(nextPotentialLi.size() > 0){
@@ -148,11 +141,11 @@
   	  }
   	}
   	function selectLi(li){
-  	  ul.children('li').removeClass(cssClassWithPrefix(options.currentSelectedLiClass)).removeClass(cssClassWithPrefix(options.selectedLiClass));
-  	  li.addClass(cssClassWithPrefix(options.selectedLiClass)).addClass(cssClassWithPrefix(options.currentSelectedLiClass));
+  	  ul.children('li').removeClass(options.currentSelectedLiClass).removeClass(options.selectedLiClass);
+  	  li.addClass(options.selectedLiClass).addClass(options.currentSelectedLiClass);
   	  var selection = li.data('snazzy.selection');
   	  select.val(selection.val());
-  	  selectedDiv.empty().html(selection.text()).addClass(cssClassWithPrefix(options.selectedDivClass)).append($("<span>&#9660;</span>"));
+  	  selectedDiv.empty().html(selection.text()).addClass(options.selectedDivClass).append($("<span>&#9660;</span>"));
       select.trigger('snazzySelectionMade');
 	    options.afterSelect();
 	    ul.hide();
@@ -167,10 +160,10 @@
   	}
   	function addHover(li){
   	  removeHover();
-  	  li.addClass(cssClassWithPrefix(options.selectedLiClass));
+  	  li.addClass(options.selectedLiClass);
   	}
   	function removeHover(){
-  	  ul.children("li").removeClass(cssClassWithPrefix(options.selectedLiClass));
+  	  ul.children("li").removeClass(options.selectedLiClass);
   	}
   	function onHover(e){
   	  var li = $(this);
@@ -191,7 +184,7 @@
   	  });
   	}
   	function addSpacer(){
-  	  var li = $("<li></li>").addClass(cssClassWithPrefix(options.breakClass)).appendTo(ul);
+  	  var li = $("<li></li>").addClass(options.breakClass).appendTo(ul);
   	}
   }
 })(jQuery);
