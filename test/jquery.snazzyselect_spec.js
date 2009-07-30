@@ -39,7 +39,8 @@ Screw.Unit(function(){
       $('.snazzy_selected').click();
       $('ul.snazzy_select li:last').click();
       $('.snazzy_selected').click();
-      expect($('ul.snazzy_select li:last').hasClass('snazzy_selected_item')).to(equal, true);
+      expect($('ul.snazzy_select li:last').hasClass('snazzy_hover')).to(equal, true);
+      expect($('ul.snazzy_select li:last').hasClass('snazzy_current')).to(equal, true);
     });
   });
 });

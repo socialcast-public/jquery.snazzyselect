@@ -6,9 +6,6 @@ div.snazzy_selected {
   div.snazzy_selected span,   div.snazzy_faux_selected span {
     margin-left: 2px; }
 
-select.snazzy_select {
-  display: none; }
-
 ul.snazzy_select {
   padding: 3px;
   font-size: 0.813em;

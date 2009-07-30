@@ -15,8 +15,8 @@
   	};
   	var defaults = {
   	  ulClass: "snazzy_select",
-  	  selectedLiClass: "snazzy_selected_item",
-  	  currentSelectedLiClass: "current",
+  	  hoverClass: "snazzy_hover",
+  	  currentClass: "snazzy_current",
   	  selectedDivClass: "snazzy_selected",
   	  breakClass: "break",
   	  postElements: null,
@@ -27,15 +27,14 @@
     var options = $.extend({}, defaults, options);
   	
 	  var element = e;
-	  var select = $(element);
+	  var select = $(element).hide();
 	  var parentDiv = select.parent('div');
-	  var ul;
+	  var ul = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
 	  var currentSelectedElement = select.children("option:selected");
-	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass);
+	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass).text(currentSelectedElement.text()).click(toggleDiv);
 	  var selectForm = select.closest("form");
+    var dropdownIcon = $("<span>&#9660;</span>").appendTo(selectedDiv);
 
-	  select.hide();
-	  
 	  generateSnazzySelect();
 	  $(document).keydown(keyPressed);
 	  
@@ -43,18 +42,15 @@
 	    setTimeout(resetSelect, 1);
 	  });
 	  function resetSelect(){
-	    select.val(select.find("option:contains('" + $("div.snazzy_selected").html().replace(/<.+>$/,"") + "')").val());
+	    select.val(select.find("option:contains('" + selectedDiv.html().replace(/<.+>$/,"") + "')").val());
 	  }
 	  
   	function generateSnazzySelect(){
-  	  ul = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
-  	  selectedDiv.text(currentSelectedElement.text()).click(toggleDiv);
-  	  $("<span>&#9660;</span>").appendTo(selectedDiv);
   	  select.children("option").each(function(){
   	    var option = $(this);
 	      var li = $("<li></li>").html(option.text()).appendTo(ul).data('snazzy.selection', option);
 	      if(option.val() == currentSelectedElement.val()){
-	        li.addClass(options.selectedLiClass).addClass(options.currentSelectedLiClass);
+	        li.addClass(options.hoverClass).addClass(options.currentClass);
 	      }
 	      li.mouseover(onHover);
         li.mouseout(outHover);
@@ -72,7 +68,6 @@
           li.click(liClick);
   	    });
   	  }
-  	  selectedDiv.appendTo(parentDiv);
   	}
   	function toggleDiv(e){
   	  if (ul.is(":hidden")) {
@@ -89,7 +84,7 @@
   	    case KEYS.RETURN:
   	    if(ul.is(":visible")){
     	    e.preventDefault();
-    	    var enteredLi = ul.children("li." + options.selectedLiClass);
+    	    var enteredLi = ul.children("li." + options.hoverClass);
     	    if(enteredLi.children("a").size() == 0){
     	      selectLi(enteredLi);
     	    } else {
@@ -121,7 +116,7 @@
 	    }
   	}
   	function selectUp(e){
-  	  var currentlySelectedLi = ul.children("li."+ options.selectedLiClass);
+  	  var currentlySelectedLi = ul.children("li."+ options.hoverClass);
   	  var nextPotentialLi = currentlySelectedLi.prev("li");
   	  if(nextPotentialLi.hasClass(options.breakClass)){
   	    nextPotentialLi = nextPotentialLi.prev("li");
@@ -131,7 +126,7 @@
 	    }
   	}
   	function selectDown(e){
-  	  var currentlySelectedLi = ul.children("li."+ options.selectedLiClass);
+  	  var currentlySelectedLi = ul.children("li."+ options.hoverClass);
   	  var nextPotentialLi = currentlySelectedLi.next("li");
   	  if(nextPotentialLi.hasClass(options.breakClass)){
   	    nextPotentialLi = nextPotentialLi.next("li");
@@ -141,11 +136,11 @@
   	  }
   	}
   	function selectLi(li){
-  	  ul.children('li').removeClass(options.currentSelectedLiClass).removeClass(options.selectedLiClass);
-  	  li.addClass(options.selectedLiClass).addClass(options.currentSelectedLiClass);
+  	  ul.children('li').removeClass(options.currentClass).removeClass(options.hoverClass);
+  	  li.addClass(options.hoverClass).addClass(options.currentClass);
   	  var selection = li.data('snazzy.selection');
   	  select.val(selection.val());
-  	  selectedDiv.empty().html(selection.text()).addClass(options.selectedDivClass).append($("<span>&#9660;</span>"));
+  	  selectedDiv.empty().html(selection.text()).append(dropdownIcon);
       select.trigger('snazzySelectionMade');
 	    options.afterSelect();
 	    ul.hide();
@@ -160,10 +155,10 @@
   	}
   	function addHover(li){
   	  removeHover();
-  	  li.addClass(options.selectedLiClass);
+  	  li.addClass(options.hoverClass);
   	}
   	function removeHover(){
-  	  ul.children("li").removeClass(options.selectedLiClass);
+  	  ul.children("li").removeClass(options.hoverClass);
   	}
   	function onHover(e){
   	  var li = $(this);
