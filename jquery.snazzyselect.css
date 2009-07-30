@@ -1,0 +1,27 @@
+div.snazzy_selected, div.snazzy_faux_selected {
+  display: inline;
+  cursor: pointer;
+  z-index: 100;
+  position: relative; }
+  div.snazzy_selected span,   div.snazzy_faux_selected span {
+    margin-left: 2px; }
+
+select.snazzy_select {
+  display: none; }
+
+ul.snazzy_select {
+  padding: 3px;
+  font-size: 0.813em;
+  line-height: 1.385;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-box-shadow: 0px 1px 5px #000;
+  -webkit-box-shadow: 0px 1px 5px #000; }
+  ul.snazzy_select li {
+    cursor: pointer;
+    padding: 2px;
+    margin: 0; }
+  ul.snazzy_select li.snazzy_break {
+    height: 1px;
+    margin: 1px 0;
+    padding: 0; }
