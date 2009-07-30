@@ -22,27 +22,32 @@ Screw.Unit(function(){
       expect(snazzySelect.is(':hidden')).to(equal, true);
       expect(snazzySelect.find('li').size()).to(equal, 3);
     });
-    it('shows the unordered list on div click', function(){
-      div.click();
-      expect(snazzySelect.is(":visible")).to(equal, true);
+
+    describe("clicking on the div", function() {
+      before(function() {
+        div.click();
+      });
+      it('shows the snazzy list', function(){
+        expect(snazzySelect.is(":visible")).to(equal, true);
+      });
     });
-    it('selects li that is clicked on, replaces div contents, and hides ul', function(){
-      div.click();
-      snazzySelect.find('li:last').click();
-      expect(snazzySelect.is(":hidden")).to(equal, true);
-      expect(div.html().replace(/\<.*/, '')).to(equal, snazzySelect.find("li:last").text());
-    });
-    it('changes div wording to match the li clicked', function(){
-      div.click();
-      snazzySelect.find('li:last').click();
-      expect(div.html().replace(/\<.*/, '')).to(equal, snazzySelect.find('li:last').text());
-    })
-    it('highlights li that matches div', function(){
-      div.click();
-      snazzySelect.find('li:last').click();
-      div.click();
-      expect(snazzySelect.find('li:last').hasClass('snazzy_hover')).to(equal, true);
-      expect(snazzySelect.find('li:last').hasClass('snazzy_current')).to(equal, true);
+
+    describe("selecting element from list via mouse click", function() {
+      before(function(){
+        div.click();
+        selected = snazzySelect.find('li:last');
+        selected.click();
+      });
+      it('updates text of div to match text of selected element', function(){
+        expect(div.html().replace(/\<.*/, '')).to(equal, selected.text());
+      });
+      it('hides snazzy list', function(){
+        expect(snazzySelect.is(":hidden")).to(equal, true);
+      });
+      it('highlights selected element', function(){
+        expect(selected.hasClass('snazzy_hover')).to(equal, true);
+        expect(selected.hasClass('snazzy_current')).to(equal, true);
+      });
     });
   });
 });
