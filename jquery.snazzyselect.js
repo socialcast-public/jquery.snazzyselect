@@ -119,20 +119,14 @@
   	}
   	function selectUp(e){
   	  var currentlySelectedLi = ul.children("li."+ options.hoverClass);
-  	  var nextPotentialLi = currentlySelectedLi.prev("li");
-  	  if(nextPotentialLi.hasClass(options.breakClass)){
-  	    nextPotentialLi = nextPotentialLi.prev("li");
-  	  }
+  	  var nextPotentialLi = currentlySelectedLi.prev("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    addHover(nextPotentialLi);
 	    }
   	}
   	function selectDown(e){
   	  var currentlySelectedLi = ul.children("li."+ options.hoverClass);
-  	  var nextPotentialLi = currentlySelectedLi.next("li");
-  	  if(nextPotentialLi.hasClass(options.breakClass)){
-  	    nextPotentialLi = nextPotentialLi.next("li");
-  	  }
+  	  var nextPotentialLi = currentlySelectedLi.next("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    addHover(nextPotentialLi);
   	  }
