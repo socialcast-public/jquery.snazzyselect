@@ -30,14 +30,12 @@ Screw.Unit(function(){
       div.click();
       snazzySelect.find('li:last').click();
       expect(snazzySelect.is(":hidden")).to(equal, true);
-      div.children("span").remove();
-      expect(div.text()).to(equal, snazzySelect.find("li:last").text());
+      expect(div.html().replace(/\<.*/, '')).to(equal, snazzySelect.find("li:last").text());
     });
     it('changes div wording to match the li clicked', function(){
       div.click();
       snazzySelect.find('li:last').click();
-      div.children('span').remove();
-      expect(div.text()).to(equal, snazzySelect.find('li:last').text());
+      expect(div.html().replace(/\<.*/, '')).to(equal, snazzySelect.find('li:last').text());
     })
     it('highlights li that matches div', function(){
       div.click();
