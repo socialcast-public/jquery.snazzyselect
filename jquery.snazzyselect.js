@@ -26,8 +26,7 @@
 
     var options = $.extend({}, defaults, options);
   	
-	  var element = e;
-	  var select = $(element).hide();
+	  var select = $(e).hide().change(changeSelection);
 	  var parentDiv = select.parent('div');
 	  var ul = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
 	  var currentSelectedElement = select.children("option:selected");
@@ -37,18 +36,28 @@
 
 	  generateSnazzySelect();
 	  $(document).keydown(keyPressed);
-	  
+
 	  selectForm.bind('reset', function(e) {
 	    setTimeout(resetSelect, 1);
 	  });
 	  function resetSelect(){
 	    select.val(select.find("option:contains('" + selectedDiv.html().replace(/<.+>$/,"") + "')").val());
 	  }
-	  
+	  function changeSelection() {
+	    var selected = select.find("option:selected");
+	    var li = selected.data('snazzy.element');
+	    ul.children('li').removeClass(options.currentClass).removeClass(options.hoverClass);
+  	  li.addClass(options.hoverClass).addClass(options.currentClass);
+  	  selectedDiv.empty().html(selected.text()).append(dropdownIcon);
+      select.trigger('snazzySelectionMade');
+	    options.afterSelect();
+	    ul.hide();
+	  }
   	function generateSnazzySelect(){
   	  select.children("option").each(function(){
   	    var option = $(this);
-	      var li = $("<li></li>").html(option.text()).appendTo(ul).data('snazzy.selection', option);
+	      var li = $("<li></li>").html(option.text()).appendTo(ul).data('snazzy.option', option);
+	      option.data('snazzy.element', li);
 	      if(option.val() == currentSelectedElement.val()){
 	        li.addClass(options.hoverClass).addClass(options.currentClass);
 	      }
@@ -136,14 +145,10 @@
   	  }
   	}
   	function selectLi(li){
-  	  ul.children('li').removeClass(options.currentClass).removeClass(options.hoverClass);
-  	  li.addClass(options.hoverClass).addClass(options.currentClass);
-  	  var selection = li.data('snazzy.selection');
-  	  select.val(selection.val());
-  	  selectedDiv.empty().html(selection.text()).append(dropdownIcon);
-      select.trigger('snazzySelectionMade');
-	    options.afterSelect();
-	    ul.hide();
+      select.find("option:selected").removeAttr("selected");
+  	  var selection = li.data('snazzy.option');
+      selection.attr("selected","selected");
+      select.change();
   	}
   	function liClick(e){
   	  var child = $(this).children("a");
