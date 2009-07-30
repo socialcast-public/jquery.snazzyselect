@@ -31,18 +31,11 @@
 	  var ul = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
 	  var currentSelectedElement = select.children("option:selected");
 	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass).text(currentSelectedElement.text()).click(toggleDiv);
-	  var selectForm = select.closest("form");
     var dropdownIcon = $("<span>&#9660;</span>").appendTo(selectedDiv);
 
 	  generateSnazzySelect();
 	  $(document).keydown(keyPressed);
 
-	  selectForm.bind('reset', function(e) {
-	    setTimeout(resetSelect, 1);
-	  });
-	  function resetSelect(){
-	    select.val(select.find("option:contains('" + selectedDiv.html().replace(/<.+>$/,"") + "')").val());
-	  }
 	  function changeSelection() {
 	    var selected = select.find("option:selected");
 	    var li = selected.data('snazzy.element');
