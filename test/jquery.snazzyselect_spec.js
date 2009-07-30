@@ -1,5 +1,5 @@
 require("spec_helper.js");
-require("../../public/javascripts/jquery.snazzySelect.js");
+require("../jquery.snazzyselect.js");
 
 Screw.Unit(function(){
   describe("Snazzy Select", function(){

@@ -1,4 +1,4 @@
-var BLUE_RIDGE_LIB_PREFIX = BLUE_RIDGE_LIB_PREFIX || "../../vendor/plugins/blue-ridge/lib/";
+var BLUE_RIDGE_LIB_PREFIX = BLUE_RIDGE_LIB_PREFIX || "blue-ridge/";
 
 var BlueRidge = {
   require: function(url, options){
