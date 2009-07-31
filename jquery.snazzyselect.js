@@ -18,7 +18,7 @@
   	  hoverClass: "snazzy_hover",
   	  currentClass: "snazzy_current",
   	  selectedDivClass: "snazzy_selected",
-  	  breakClass: "break",
+  	  breakClass: "snazzy_break",
   	  extraElements: null,
   	  afterSelect: function(){},
     };
