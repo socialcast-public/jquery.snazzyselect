@@ -20,7 +20,6 @@
   	  selectedDivClass: "snazzy_selected",
   	  breakClass: "break",
   	  extraElements: null,
-  	  seperatePrompt: false,
   	  afterSelect: function(){},
     };
 
@@ -56,9 +55,6 @@
 	      }
 	      li.hover(onHover, outHover);
         li.click(liClick);
-	      if(options.seperatePrompt && option.val() == ""){
-	        addSpacer();
-	      }
   	  });
   	  if(options.extraElements){
   	    addSpacer();
