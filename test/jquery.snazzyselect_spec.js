@@ -60,12 +60,15 @@ Screw.Unit(function(){
         div.click();
         selected = snazzySelect.find('li:last');
         selected.click();
-        form.trigger('reset');
+        form.each(function(){
+          this.reset();
+      	});
       });
-      it('resets the selected text', function() {
-        expect(div.html().replace(/\<.*/, '')).to(equal, 'Sean Cashin');
+      it('resets the selected text after event triggered', function() {
+        expect(div.html().replace(/\<.*/, '')).to(equal, 'Everyone');
       });
     });
+
     describe('extra elements', function() {
       before(function() { 
         var fixtures = $('#fixtures').empty();
