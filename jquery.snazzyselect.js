@@ -4,15 +4,8 @@
 			new $.SnazzySelect(this, options);
 		});
 	};
-	
+
 	$.SnazzySelect = function (e, options) {
-	  var KEYS = {
-  		UP: 38,
-  		DOWN: 40,
-  		TAB: 9,
-  		RETURN: 13,
-  		ESC: 27
-  	};
   	var defaults = {
   	  ulClass: "snazzy_select",
   	  hoverClass: "snazzy_hover",
@@ -79,36 +72,36 @@
   	    return;
   	  }
   	  switch(e.keyCode) {
-  	    case KEYS.TAB:
-  	    case KEYS.RETURN:
+  	    case $.SnazzySelect.KEYS.TAB:
+  	    case $.SnazzySelect.KEYS.RETURN:
     	    e.preventDefault();
-    	    var selected = list.children("li." + options.hoverClass);
-    	    selectLi(selected);
+    	    selectLi(selectedElement());
     	    return false;
-  	    case KEYS.ESC:
+  	    case $.SnazzySelect.KEYS.ESC:
     	    e.preventDefault();
     	    list.hide();
     	    return false;
-  	    case KEYS.UP:
+  	    case $.SnazzySelect.KEYS.UP:
     	    e.preventDefault();
     	    selectUp();
     	    return false;
-  	    case KEYS.DOWN:
+  	    case $.SnazzySelect.KEYS.DOWN:
     	    e.preventDefault();
     	    selectDown();
     	    return false;
 	    }
   	}
+  	function selectedElement() {
+  	  return list.children("li." + options.hoverClass);
+  	}
   	function selectUp(){
-  	  var currentlySelectedLi = list.children("li."+ options.hoverClass);
-  	  var nextPotentialLi = currentlySelectedLi.prev("li:not(" + options.breakClass + ')');
+  	  var nextPotentialLi = selectedElement().prev("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    addHover(nextPotentialLi);
 	    }
   	}
   	function selectDown(){
-  	  var currentlySelectedLi = list.children("li."+ options.hoverClass);
-  	  var nextPotentialLi = currentlySelectedLi.next("li:not(" + options.breakClass + ')');
+  	  var nextPotentialLi = selectedElement().next("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    addHover(nextPotentialLi);
   	  }
@@ -145,4 +138,13 @@
   	  });
   	}
   }
+
+  $.SnazzySelect.KEYS = {
+		UP: 38,
+		DOWN: 40,
+		TAB: 9,
+		RETURN: 13,
+		ESC: 27
+	};
+
 })(jQuery);

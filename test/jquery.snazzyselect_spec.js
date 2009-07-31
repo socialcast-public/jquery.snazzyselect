@@ -52,7 +52,24 @@ Screw.Unit(function(){
     });
 
     describe('keyboard navigation', function() {
-      
+      it('down arrow hovers over next result', function() {
+        div.click();
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.DOWN;
+        e.keyCode = $.SnazzySelect.KEYS.DOWN;
+      	div.trigger(e);
+
+        expect(snazzySelect.find('li.snazzy_hover').text()).to(equal, 'Ryan Sonnek');
+      });
+      it('up arrow hovers over previous result', function() {
+        div.click();
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.UP;
+        e.keyCode = $.SnazzySelect.KEYS.UP;
+      	div.trigger(e);
+
+        expect(snazzySelect.find('li.snazzy_hover').text()).to(equal, 'Everyone');
+      });
     });
 
     describe("resetting the form", function() {
