@@ -6,7 +6,8 @@ Screw.Unit(function(){
     before(function() { 
       var fixtures = $('#fixtures').empty();
       $('ul.snazzy_select').remove();
-      var container = $('<div />').appendTo(fixtures);
+      form = $('<form />').appendTo(fixtures);
+      var container = $('<div />').appendTo(form);
       div = $('<div />').appendTo(container).addClass('snazzy_selected');
       select = $('<select />').appendTo(container).append('<option>Everyone</option>').append("<option selected='selected' value='sean'>Sean Cashin</option>").append("<option value='ryan'>Ryan Sonnek</option>").snazzySelect();
       snazzySelect = $('ul.snazzy_select');
@@ -47,6 +48,37 @@ Screw.Unit(function(){
       it('highlights selected element', function(){
         expect(selected.hasClass('snazzy_hover')).to(equal, true);
         expect(selected.hasClass('snazzy_current')).to(equal, true);
+      });
+    });
+
+    describe('keyboard navigation', function() {
+      
+    });
+
+    describe("resetting the form", function() {
+      before(function() {
+        div.click();
+        selected = snazzySelect.find('li:last');
+        selected.click();
+        form.trigger('reset');
+      });
+      it('resets the selected text', function() {
+        expect(div.html().replace(/\<.*/, '')).to(equal, 'Sean Cashin');
+      });
+    });
+    describe('extra elements', function() {
+      before(function() { 
+        var fixtures = $('#fixtures').empty();
+        $('ul.snazzy_select').remove();
+        var container = $('<div />').appendTo(fixtures);
+        div = $('<div />').appendTo(container).addClass('snazzy_selected');
+        select = $('<select />').appendTo(container).append('<option>Everyone</option>').append("<option selected='selected' value='sean'>Sean Cashin</option>").append("<option value='ryan'>Ryan Sonnek</option>").snazzySelect({
+          extraElements: $("<a href='http://google.com'>google it</a>")
+        });
+        snazzySelect = $('ul.snazzy_select');
+      });
+      it('adds elements to end of list', function() {
+        expect(snazzySelect.children('li').size()).to(equal, 5);
       });
     });
   });

@@ -19,7 +19,7 @@
   	  currentClass: "snazzy_current",
   	  selectedDivClass: "snazzy_selected",
   	  breakClass: "break",
-  	  postElements: null,
+  	  extraElements: null,
   	  seperatePrompt: false,
   	  afterSelect: function(){},
     };
@@ -54,20 +54,16 @@
 	      if(option.val() == currentSelectedElement.val()){
 	        li.addClass(options.hoverClass).addClass(options.currentClass);
 	      }
-	      li.mouseover(onHover);
-        li.mouseout(outHover);
+	      li.hover(onHover, outHover);
         li.click(liClick);
 	      if(options.seperatePrompt && option.val() == ""){
 	        addSpacer();
 	      }
   	  });
-  	  if(options.postElements){
+  	  if(options.extraElements){
   	    addSpacer();
-  	    options.postElements.each(function(){
+  	    options.extraElements.each(function(){
   	      var li = $("<li></li>").appendTo(ul).append($(this));
-  	      li.mouseover(onHover);
-          li.mouseout(outHover);
-          li.click(liClick);
   	    });
   	  }
   	}
@@ -80,51 +76,38 @@
   	  }
   	}
   	function keyPressed(e){
+  	  if (!ul.is(':visible')) {
+  	    return;
+  	  }
   	  switch(e.keyCode) {
   	    case KEYS.TAB:
-  	    options.afterSelect()
   	    case KEYS.RETURN:
-  	    if(ul.is(":visible")){
     	    e.preventDefault();
-    	    var enteredLi = ul.children("li." + options.hoverClass);
-    	    if(enteredLi.children("a").size() == 0){
-    	      selectLi(enteredLi);
-    	    } else {
-            window.location = enteredLi.children("a").attr("href");
-    	    }
-    	    ul.hide();
-    	    options.afterSelect();
+    	    var selected = ul.children("li." + options.hoverClass);
+    	    selectLi(selected);
     	    return false;
-  	    }
   	    case KEYS.ESC:
-  	    if(ul.is(":visible")){
     	    e.preventDefault();
     	    ul.hide();
-    	    options.afterSelect();
     	    return false;
-  	    }
   	    case KEYS.UP:
-  	    if(ul.is(":visible")){
     	    e.preventDefault();
-    	    selectUp(e);
+    	    selectUp();
     	    return false;
-  	    }
   	    case KEYS.DOWN:
-  	    if(ul.is(":visible")){
     	    e.preventDefault();
-    	    selectDown(e);
+    	    selectDown();
     	    return false;
-  	    }
 	    }
   	}
-  	function selectUp(e){
+  	function selectUp(){
   	  var currentlySelectedLi = ul.children("li."+ options.hoverClass);
   	  var nextPotentialLi = currentlySelectedLi.prev("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    addHover(nextPotentialLi);
 	    }
   	}
-  	function selectDown(e){
+  	function selectDown(){
   	  var currentlySelectedLi = ul.children("li."+ options.hoverClass);
   	  var nextPotentialLi = currentlySelectedLi.next("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
@@ -138,12 +121,7 @@
       select.change();
   	}
   	function liClick(e){
-  	  var child = $(this).children("a");
-  	  if(child.size() == 0){
-	      selectLi($(this));
-	    } else {
-	      window.location = child.attr("href");
-	    }
+      selectLi($(this));
   	}
   	function addHover(li){
   	  removeHover();
@@ -154,9 +132,6 @@
   	}
   	function onHover(e){
   	  var li = $(this);
-  	  if(!li.is("li")){
-  	    li = li.closest("li");
-  	  }
 	    addHover(li);
   	}
   	function outHover(e){
