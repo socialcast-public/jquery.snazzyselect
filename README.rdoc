@@ -1,0 +1,39 @@
+= jquery.snazzyselect
+
+  Customize your HTML select inputs without all the pain!
+
+= Usage
+
+  <html>
+  <head>
+    <script type="text/javascript" src="jquery.snazzyselect.js"></script>
+    <link rel="stylesheet" href="jquery.snazzyselect.css" type="text/css" />
+  </head>
+  <body>
+    <form>
+      <div>
+        <select id='my_field'>
+          <option>value 1</option>
+          <option>value 2</option>
+        </select>
+      </div>
+    </form>
+  </body>
+  </html>
+
+= Features
+
+  * skinnable dropdowns
+  * no changes necessary for serverside processing.
+  * extracted from real-world production application (Socialcast - http://socialcast.com)
+  * full unit test suite
+
+= Installation
+
+  * copy javascript and css files into your application
+  * add references to files in your html document
+  * initialize using $('my_field').snazzySelect();
+  
+== Copyright
+
+Copyright (c) 2009 Ryan Sonnek. See LICENSE for details.
