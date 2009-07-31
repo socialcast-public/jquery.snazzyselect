@@ -41,7 +41,6 @@
 	    ul.children('li').removeClass(options.currentClass).removeClass(options.hoverClass);
   	  li.addClass(options.hoverClass).addClass(options.currentClass);
   	  selectedDiv.empty().html(selected.text()).append(dropdownIcon);
-      select.trigger('snazzySelectionMade');
 	    options.afterSelect();
 	    ul.hide();
 	  }
