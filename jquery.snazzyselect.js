@@ -52,9 +52,9 @@
         li.click(liClick);
   	  });
   	  if(options.extraElements){
-    	  $("<li></li>").addClass(options.breakClass).appendTo(list);
+    	  $("<li />").addClass(options.breakClass).appendTo(list);
   	    options.extraElements.each(function(){
-  	      var li = $("<li></li>").appendTo(list).append($(this));
+  	      $("<li />").appendTo(list).append($(this));
   	    });
   	  }
   	}
