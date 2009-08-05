@@ -67,7 +67,7 @@ $('select').snazzySelect();
 	        li.addClass(options.currentClass);
 	      }
 	      li.hover(onHover);
-        li.click(liClick);
+        li.click(onClick);
   	  });
   	  if(options.extraElements){
     	  $("<li />").addClass(options.breakClass).appendTo(list);
@@ -94,7 +94,7 @@ $('select').snazzySelect();
   	    case $.SnazzySelect.KEYS.TAB:
   	    case $.SnazzySelect.KEYS.RETURN:
     	    e.preventDefault();
-    	    selectLi(highlightedElement());
+    	    selectElement(highlightedElement());
     	    return false;
   	    case $.SnazzySelect.KEYS.ESCAPE:
     	    e.preventDefault();
@@ -125,14 +125,14 @@ $('select').snazzySelect();
   	    hover(nextPotentialLi);
   	  }
   	}
-  	function selectLi(li){
+  	function selectElement(li){
       selectedOption().removeAttr("selected");
   	  var selection = li.data('snazzy.option');
       selection.attr("selected","selected");
       select.change();
   	}
-  	function liClick(e){
-      selectLi($(this));
+  	function onClick(e){
+      selectElement($(this));
   	}
   	function hover(li){
   	  removeHover();
