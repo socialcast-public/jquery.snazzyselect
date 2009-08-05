@@ -45,6 +45,16 @@ Screw.Unit(function(){
       });
     });
 
+    describe("clicking on the div twice", function() {
+      before(function() {
+        div.click();
+        div.click();
+      });
+      it('hides the snazzy list', function(){
+        expect(snazzySelect.is(":visible")).to(equal, false);
+      });
+    });
+
     describe("selecting element from list via mouse click", function() {
       before(function(){
         div.click();
