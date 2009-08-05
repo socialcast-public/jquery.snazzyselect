@@ -40,6 +40,9 @@ Screw.Unit(function(){
       it('shows the snazzy list', function(){
         expect(snazzySelect.is(":visible")).to(equal, true);
       });
+      it('adds hover class to current element', function(){
+        expect(snazzySelect.find('li.snazzy_current').hasClass('snazzy_hover')).to(equal, true);
+      });
     });
 
     describe("selecting element from list via mouse click", function() {
@@ -54,8 +57,7 @@ Screw.Unit(function(){
       it('hides snazzy list', function(){
         expect(snazzySelect.is(":hidden")).to(equal, true);
       });
-      it('highlights selected element', function(){
-        expect(selected.hasClass('snazzy_hover')).to(equal, true);
+      it('adds current class to selected element', function(){
         expect(selected.hasClass('snazzy_current')).to(equal, true);
       });
     });
@@ -78,6 +80,43 @@ Screw.Unit(function(){
       	div.trigger(e);
 
         expect(snazzySelect.find('li.snazzy_hover').text()).to(equal, 'Everyone');
+      });
+      it('escape key hides the snazzy select dropdown', function() {
+        div.click();
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.ESCAPE;
+        e.keyCode = $.SnazzySelect.KEYS.ESCAPE;
+      	div.trigger(e);
+
+        expect(snazzySelect.is(':hidden')).to(equal, true);
+      });
+      it('return selects highlighted element', function() {
+        div.click();
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.UP;
+        e.keyCode = $.SnazzySelect.KEYS.UP;
+      	div.trigger(e);
+
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.RETURN;
+        e.keyCode = $.SnazzySelect.KEYS.RETURN;
+      	div.trigger(e);
+
+        expect(snazzySelect.find('li.snazzy_current').text()).to(equal, 'Everyone');
+      });
+      it('tab selects highlighted element', function() {
+        div.click();
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.UP;
+        e.keyCode = $.SnazzySelect.KEYS.UP;
+      	div.trigger(e);
+
+        e = $.Event("keydown");
+        e.which = $.SnazzySelect.KEYS.TAB;
+        e.keyCode = $.SnazzySelect.KEYS.TAB;
+      	div.trigger(e);
+
+        expect(snazzySelect.find('li.snazzy_current').text()).to(equal, 'Everyone');
       });
     });
 

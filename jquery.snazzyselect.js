@@ -78,7 +78,7 @@
     	    e.preventDefault();
     	    selectLi(selectedElement());
     	    return false;
-  	    case $.SnazzySelect.KEYS.ESC:
+  	    case $.SnazzySelect.KEYS.ESCAPE:
     	    e.preventDefault();
     	    list.hide();
     	    return false;
@@ -142,7 +142,7 @@
 		DOWN: 40,
 		TAB: 9,
 		RETURN: 13,
-		ESC: 27
+		ESCAPE: 27
 	};
 
 })(jQuery);
