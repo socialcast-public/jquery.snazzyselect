@@ -23,6 +23,15 @@ Screw.Unit(function(){
       expect(snazzySelect.is(':hidden')).to(equal, true);
       expect(snazzySelect.find('li').size()).to(equal, 3);
     });
+    it('fires change listener when element selected', function() {
+      var changed = false;
+      select.change(function() {
+        changed = true;
+      });
+      div.click();
+      snazzySelect.find('li:last').click();
+      expect(changed).to(equal, true);
+    });
 
     describe("clicking on the div", function() {
       before(function() {

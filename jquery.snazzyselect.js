@@ -13,7 +13,6 @@
   	  selectedDivClass: "snazzy_selected",
   	  breakClass: "snazzy_break",
   	  extraElements: null,
-  	  afterSelect: function(){},
     };
 
     var options = $.extend({}, defaults, options);
@@ -35,10 +34,10 @@
 	  function changeSelection() {
 	    var selected = select.find("option:selected");
 	    var li = selected.data('snazzy.element');
-	    list.children('li').removeClass(options.currentClass).removeClass(options.hoverClass);
-  	  li.addClass(options.hoverClass).addClass(options.currentClass);
+	    removeHover();
+	    list.children('li').removeClass(options.currentClass);
+  	  li.addClass(options.currentClass);
   	  selectedDiv.empty().html(selected.text()).append(dropdownIcon);
-	    options.afterSelect();
 	    list.hide();
 	  }
   	function generateSnazzySelect(){
@@ -47,9 +46,9 @@
 	      var li = $("<li></li>").html(option.text()).appendTo(list).data('snazzy.option', option);
 	      option.data('snazzy.element', li);
 	      if(option.val() == currentSelectedElement.val()){
-	        li.addClass(options.hoverClass).addClass(options.currentClass);
+	        li.addClass(options.currentClass);
 	      }
-	      li.hover(onHover, outHover);
+	      li.hover(onHover);
         li.click(liClick);
   	  });
   	  if(options.extraElements){
@@ -62,6 +61,8 @@
   	function toggleDiv(e){
   	  if (list.is(":hidden")) {
   	    positionList();
+  	    var current = list.children('li.' + options.currentClass);
+  	    hover(current);
     	  list.show();
   	  } else if (list.is(":visible")) {
   	    list.hide();
@@ -97,13 +98,13 @@
   	function selectUp(){
   	  var nextPotentialLi = selectedElement().prev("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
-  	    addHover(nextPotentialLi);
+  	    hover(nextPotentialLi);
 	    }
   	}
   	function selectDown(){
   	  var nextPotentialLi = selectedElement().next("li:not(" + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
-  	    addHover(nextPotentialLi);
+  	    hover(nextPotentialLi);
   	  }
   	}
   	function selectLi(li){
@@ -115,7 +116,7 @@
   	function liClick(e){
       selectLi($(this));
   	}
-  	function addHover(li){
+  	function hover(li){
   	  removeHover();
   	  li.addClass(options.hoverClass);
   	}
@@ -124,10 +125,7 @@
   	}
   	function onHover(e){
   	  var li = $(this);
-	    addHover(li);
-  	}
-  	function outHover(e){
-  	  removeHover();
+	    hover(li);
   	}
   	function positionList(){
   	  list.css({
