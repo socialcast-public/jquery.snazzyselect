@@ -38,23 +38,24 @@ $('select').snazzySelect();
 	  var parentDiv = select.parent('div');
 	  select.closest('form').bind('reset', resetForm);
 	  var list = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
-	  var currentSelectedElement = select.children("option:selected");
-	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass).text(currentSelectedElement.text()).click(toggleDiv);
+	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass).text(selectedOption().text()).click(toggleDiv);
     var dropdownIcon = $("<span>&#9660;</span>").appendTo(selectedDiv);
 
 	  generateSnazzySelect();
 	  $(document).keydown(keyPressed);
 
+    function selectedOption() {
+      return select.children("option:selected");
+    }
     function resetForm() {
       setTimeout(changeSelection, 0);
     }
 	  function changeSelection() {
-	    var selected = select.find("option:selected");
-	    var li = selected.data('snazzy.element');
+	    var li = selectedOption().data('snazzy.element');
 	    removeHover();
 	    list.children('li').removeClass(options.currentClass);
   	  li.addClass(options.currentClass);
-  	  selectedDiv.empty().html(selected.text()).append(dropdownIcon);
+  	  selectedDiv.empty().html(selectedOption().text()).append(dropdownIcon);
 	    list.hide();
 	  }
   	function generateSnazzySelect(){
@@ -62,7 +63,7 @@ $('select').snazzySelect();
   	    var option = $(this);
 	      var li = $("<li></li>").html(option.text()).appendTo(list).data('snazzy.option', option);
 	      option.data('snazzy.element', li);
-	      if(option.val() == currentSelectedElement.val()){
+	      if(option.val() == selectedOption().val()){
 	        li.addClass(options.currentClass);
 	      }
 	      li.hover(onHover);
@@ -93,7 +94,7 @@ $('select').snazzySelect();
   	    case $.SnazzySelect.KEYS.TAB:
   	    case $.SnazzySelect.KEYS.RETURN:
     	    e.preventDefault();
-    	    selectLi(selectedElement());
+    	    selectLi(highlightedElement());
     	    return false;
   	    case $.SnazzySelect.KEYS.ESCAPE:
     	    e.preventDefault();
@@ -109,23 +110,23 @@ $('select').snazzySelect();
     	    return false;
 	    }
   	}
-  	function selectedElement() {
+  	function highlightedElement() {
   	  return list.children("li." + options.hoverClass);
   	}
   	function selectUp(){
-  	  var nextPotentialLi = selectedElement().prev("li:not(." + options.breakClass + ')');
+  	  var nextPotentialLi = highlightedElement().prev("li:not(." + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    hover(nextPotentialLi);
 	    }
   	}
   	function selectDown(){
-  	  var nextPotentialLi = selectedElement().next("li:not(." + options.breakClass + ')');
+  	  var nextPotentialLi = highlightedElement().next("li:not(." + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    hover(nextPotentialLi);
   	  }
   	}
   	function selectLi(li){
-      select.find("option:selected").removeAttr("selected");
+      selectedOption().removeAttr("selected");
   	  var selection = li.data('snazzy.option');
       selection.attr("selected","selected");
       select.change();
