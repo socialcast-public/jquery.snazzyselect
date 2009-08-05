@@ -6,6 +6,7 @@
 
   <html>
   <head>
+    <!-- add javascript and default styling to the page -->
     <script type="text/javascript" src="jquery.snazzyselect.js"></script>
     <link rel="stylesheet" href="jquery.snazzyselect.css" type="text/css" />
   </head>
@@ -16,6 +17,10 @@
           <option>value 1</option>
           <option>value 2</option>
         </select>
+        <div class="snazzy_selected">New Dropdown will go here</div>
+        <script type='text/javascript'>
+          $('my_field').snazzySelect();
+        </script>
       </div>
     </form>
   </body>
@@ -31,7 +36,9 @@
 = Installation
 
   * copy javascript and css files into your application
-  * add references to files in your html document
+  * add references to javascript and default css stylesheet
+  * wrap select tag in a div
+  * add placeholder div with the class snazzy_selected within the wrapper div
   * initialize using $('my_field').snazzySelect();
   
 == Copyright
