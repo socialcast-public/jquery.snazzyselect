@@ -142,13 +142,17 @@ Screw.Unit(function(){
         $('ul.snazzy_select').remove();
         var container = $('<div />').appendTo(fixtures);
         div = $('<div />').appendTo(container).addClass('snazzy_selected');
+        extraLink = $("<a href='http://google.com'>google it</a>");
         select = $('<select />').appendTo(container).append('<option>Everyone</option>').append("<option selected='selected' value='sean'>Sean Cashin</option>").append("<option value='ryan'>Ryan Sonnek</option>").snazzySelect({
-          extraElements: $("<a href='http://google.com'>google it</a>")
+          extraElements: extraLink
         });
         snazzySelect = $('ul.snazzy_select');
       });
-      it('adds elements to end of list', function() {
-        expect(snazzySelect.children('li').size()).to(equal, 5);
+      it('adds placeholder break element after options', function() {
+        expect(snazzySelect.children('li').eq(3).hasClass('snazzy_break')).to(equal, true);
+      });
+      it('adds content to end of list', function() {
+        expect(snazzySelect.children('li').eq(4).find('a').attr('href')).to(equal, extraLink.attr('href'));
       });
     });
   });
