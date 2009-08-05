@@ -113,13 +113,13 @@ $('select').snazzySelect();
   	  return list.children("li." + options.hoverClass);
   	}
   	function selectUp(){
-  	  var nextPotentialLi = selectedElement().prev("li:not(" + options.breakClass + ')');
+  	  var nextPotentialLi = selectedElement().prev("li:not(." + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    hover(nextPotentialLi);
 	    }
   	}
   	function selectDown(){
-  	  var nextPotentialLi = selectedElement().next("li:not(" + options.breakClass + ')');
+  	  var nextPotentialLi = selectedElement().next("li:not(." + options.breakClass + ')');
   	  if(nextPotentialLi.size() > 0){
   	    hover(nextPotentialLi);
   	  }
