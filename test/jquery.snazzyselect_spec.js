@@ -82,6 +82,8 @@ Screw.Unit(function(){
       	});
       });
       it('resets the selected text after event triggered', function() {
+        //this test fails because the assertion runs before the reset handler
+        //need to find a way to run this test after the setTimeout callback fires
         expect(div.html().replace(/\<.*/, '')).to(equal, 'Everyone');
       });
     });
