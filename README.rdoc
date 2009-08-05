@@ -4,6 +4,20 @@
 
 = Usage
 
+  HTML:
+  <div>
+    <select>
+      <option>value 1</option>
+      <option>value 2</option>
+    </select>
+    <div class="snazzy_selected">placeholder</div>
+  </div>
+  
+  Javascript:
+  $('select').snazzySelect();
+
+= Example
+
   <html>
   <head>
     <!-- add javascript and default styling to the page -->
@@ -13,13 +27,13 @@
   <body>
     <form>
       <div>
-        <select id='my_field'>
+        <select>
           <option>value 1</option>
           <option>value 2</option>
         </select>
         <div class="snazzy_selected">New Dropdown will go here</div>
         <script type='text/javascript'>
-          $('my_field').snazzySelect();
+          $('select').snazzySelect();
         </script>
       </div>
     </form>

@@ -1,3 +1,20 @@
+/*
+css skinnable select inputs.
+
+Usage:
+HTML:
+<div>
+  <select>
+    <option>value 1</option>
+    <option>value 2</option>
+  </select>
+  <div class="snazzy_selected">placeholder</div>
+</div>
+
+Javascript:
+$('select').snazzySelect();
+
+*/
 (function($) {
 	$.fn.snazzySelect = function(options) {
 		return this.each(function() {
