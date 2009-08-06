@@ -43,8 +43,14 @@ $('select').snazzySelect();
     var dropdownIcon = $("<span>&#9660;</span>").appendTo(selection);
 
 	  generateSnazzySelect();
-	  $(document).keydown(keyPressed);
-
+	  
+	  function hideIfSelectionNotClicked(e) {
+	    var clicked = $(e.target);
+	    //clicked.is(selection) doesn't work here
+      if (clicked.text() != selection.text()) {
+        hide();
+      }
+	  }
     function selectedOption() {
       return select.children("option:selected");
     }
@@ -79,18 +85,25 @@ $('select').snazzySelect();
   	}
   	function toggleDiv(e){
   	  if (list.is(":hidden")) {
-  	    positionList();
-  	    var current = list.children('li.' + options.currentClass);
-  	    hover(current);
-  	    selection.addClass(options.activeClass);
-    	  list.show();
+  	    show();
   	  } else if (list.is(":visible")) {
   	    hide();
   	  }
   	}
+  	function show() {
+  	  positionList();
+	    var current = list.children('li.' + options.currentClass);
+	    hover(current);
+	    selection.addClass(options.activeClass);
+  	  list.show();
+  	  $(document).keydown(keyPressed);
+  	  $(document).click(hideIfSelectionNotClicked);
+  	}
   	function hide() {
   	  selection.removeClass(options.activeClass);
   	  list.hide();
+  	  $(document).unbind('keydown', keyPressed);
+  	  $(document).unbind('click', hideIfSelectionNotClicked);
   	}
   	function keyPressed(e){
   	  if (!list.is(':visible')) {
