@@ -38,7 +38,7 @@ $('select').snazzySelect();
 	  var select = $(e).hide().change(changeSelection);
 	  var parentDiv = select.parent('div');
 	  select.closest('form').bind('reset', resetForm);
-	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body'));
+	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
 	  var selection = parentDiv.find('div.' + options.selectionClass).text(selectedOption().text()).click(toggleDiv);
     var dropdownIcon = $("<span>&#9660;</span>").appendTo(selection);
 
