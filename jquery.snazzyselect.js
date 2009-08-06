@@ -84,6 +84,7 @@ $('select').snazzySelect();
   	  }
   	}
   	function toggleDiv(e){
+  	  e.stopPropagation();
   	  if (list.is(":hidden")) {
   	    show();
   	  } else if (list.is(":visible")) {

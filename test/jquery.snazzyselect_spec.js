@@ -45,6 +45,15 @@ Screw.Unit(function(){
       });
     });
 
+    describe("clicking on the dropdown icon", function() {
+      before(function() {
+        div.find('span').click();
+      });
+      it('shows the snazzy list', function(){
+        expect(snazzySelect.is(":visible")).to(equal, true);
+      });
+    });
+
     describe("clicking on the div twice", function() {
       before(function() {
         div.click();
