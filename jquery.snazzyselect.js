@@ -26,7 +26,6 @@ $('select').snazzySelect();
   	var defaults = {
   	  listClass: "snazzy_select",
   	  hoverClass: "snazzy_hover",
-  	  currentClass: "snazzy_current",
   	  selectionClass: "snazzy_selected",
   	  activeClass: 'snazzy_active',
   	  breakClass: "snazzy_break"
@@ -34,15 +33,30 @@ $('select').snazzySelect();
 
     var options = $.extend({}, defaults, options);
   	
-	  var select = $(e).hide().change(changeSelection);
+	  var select = $(e).hide();
 	  var parentDiv = select.parent('div');
 	  select.closest('form').bind('reset', resetForm);
-	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
 	  var selection = parentDiv.find('div.' + options.selectionClass).text(selectedOption().text()).click(toggleDiv);
     var dropdownIcon = $("<span>&#9660;</span>").appendTo(selection);
 
-	  generateSnazzySelect();
+	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
+	  select.children("option").each(function(){
+	    var option = $(this);
+      var li = $("<li></li>").html(option.text()).appendTo(list).data('snazzy.option', option);
+      option.data('snazzy.element', li);
+      li.hover(onHover);
+      li.click(onClick);
+	  });
+	  if(options.extraElements){
+  	  $("<li />").addClass(options.breakClass).appendTo(list);
+	    options.extraElements.each(function(){
+	      $("<li />").appendTo(list).append($(this));
+	    });
+	  }
 	  
+	  select.change(changeSelection);
+	  changeSelection();
+
 	  function hideIfSelectionNotClicked(e) {
 	    var clicked = $(e.target);
 	    //clicked.is(selection) doesn't work here
@@ -57,31 +71,9 @@ $('select').snazzySelect();
       setTimeout(changeSelection, 0);
     }
 	  function changeSelection() {
-	    var li = selectedOption().data('snazzy.element');
-	    removeHover();
-	    list.children('li').removeClass(options.currentClass);
-  	  li.addClass(options.currentClass);
   	  selection.empty().html(selectedOption().text()).append(dropdownIcon);
 	    hide();
 	  }
-  	function generateSnazzySelect(){
-  	  select.children("option").each(function(){
-  	    var option = $(this);
-	      var li = $("<li></li>").html(option.text()).appendTo(list).data('snazzy.option', option);
-	      option.data('snazzy.element', li);
-	      if(option.val() == selectedOption().val()){
-	        li.addClass(options.currentClass);
-	      }
-	      li.hover(onHover);
-        li.click(onClick);
-  	  });
-  	  if(options.extraElements){
-    	  $("<li />").addClass(options.breakClass).appendTo(list);
-  	    options.extraElements.each(function(){
-  	      $("<li />").appendTo(list).append($(this));
-  	    });
-  	  }
-  	}
   	function toggleDiv(e){
   	  e.stopPropagation();
   	  if (list.is(":hidden")) {
@@ -90,10 +82,12 @@ $('select').snazzySelect();
   	    hide();
   	  }
   	}
+  	function selectedElement() {
+  	  return selectedOption().data('snazzy.element');
+  	}
   	function show() {
   	  positionList();
-	    var current = list.children('li.' + options.currentClass);
-	    hover(current);
+	    hover(selectedElement());
 	    selection.addClass(options.activeClass);
   	  list.show();
   	  $(document).keydown(keyPressed);
