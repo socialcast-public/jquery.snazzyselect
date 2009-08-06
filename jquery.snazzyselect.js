@@ -29,8 +29,7 @@ $('select').snazzySelect();
   	  currentClass: "snazzy_current",
   	  selectionClass: "snazzy_selected",
   	  activeClass: 'snazzy_active',
-  	  breakClass: "snazzy_break",
-  	  extraElements: null,
+  	  breakClass: "snazzy_break"
     };
 
     var options = $.extend({}, defaults, options);
