@@ -24,10 +24,11 @@ $('select').snazzySelect();
 
 	$.SnazzySelect = function (e, options) {
   	var defaults = {
-  	  ulClass: "snazzy_select",
+  	  listClass: "snazzy_select",
   	  hoverClass: "snazzy_hover",
   	  currentClass: "snazzy_current",
-  	  selectedDivClass: "snazzy_selected",
+  	  selectionClass: "snazzy_selected",
+  	  activeClass: 'snazzy_active',
   	  breakClass: "snazzy_break",
   	  extraElements: null,
     };
@@ -37,9 +38,9 @@ $('select').snazzySelect();
 	  var select = $(e).hide().change(changeSelection);
 	  var parentDiv = select.parent('div');
 	  select.closest('form').bind('reset', resetForm);
-	  var list = $("<ul></ul>").addClass(options.ulClass).hide().appendTo($('body'));
-	  var selectedDiv = parentDiv.find('div.' + options.selectedDivClass).text(selectedOption().text()).click(toggleDiv);
-    var dropdownIcon = $("<span>&#9660;</span>").appendTo(selectedDiv);
+	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body'));
+	  var selection = parentDiv.find('div.' + options.selectionClass).text(selectedOption().text()).click(toggleDiv);
+    var dropdownIcon = $("<span>&#9660;</span>").appendTo(selection);
 
 	  generateSnazzySelect();
 	  $(document).keydown(keyPressed);
@@ -55,8 +56,8 @@ $('select').snazzySelect();
 	    removeHover();
 	    list.children('li').removeClass(options.currentClass);
   	  li.addClass(options.currentClass);
-  	  selectedDiv.empty().html(selectedOption().text()).append(dropdownIcon);
-	    list.hide();
+  	  selection.empty().html(selectedOption().text()).append(dropdownIcon);
+	    hide();
 	  }
   	function generateSnazzySelect(){
   	  select.children("option").each(function(){
@@ -81,10 +82,15 @@ $('select').snazzySelect();
   	    positionList();
   	    var current = list.children('li.' + options.currentClass);
   	    hover(current);
+  	    selection.addClass(options.activeClass);
     	  list.show();
   	  } else if (list.is(":visible")) {
-  	    list.hide();
+  	    hide();
   	  }
+  	}
+  	function hide() {
+  	  selection.removeClass(options.activeClass);
+  	  list.hide();
   	}
   	function keyPressed(e){
   	  if (!list.is(':visible')) {
@@ -98,7 +104,7 @@ $('select').snazzySelect();
     	    return false;
   	    case $.SnazzySelect.KEYS.ESCAPE:
     	    e.preventDefault();
-    	    list.hide();
+    	    hide();
     	    return false;
   	    case $.SnazzySelect.KEYS.UP:
     	    e.preventDefault();
@@ -147,8 +153,8 @@ $('select').snazzySelect();
   	}
   	function positionList(){
   	  list.css({
-  	    "top": (selectedDiv.offset().top + selectedDiv.outerHeight()), 
-  	    "left": selectedDiv.offset().left, 
+  	    "top": (selection.offset().top + selection.outerHeight()), 
+  	    "left": selection.offset().left, 
   	    "position": "absolute",
   	    "z-index": 99999
   	  });
