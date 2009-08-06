@@ -36,13 +36,14 @@ $('select').snazzySelect();
 	  var select = $(e).hide();
 	  var parentDiv = select.parent('div');
 	  select.closest('form').bind('reset', resetForm);
-	  var selection = parentDiv.find('div.' + options.selectionClass).text(selectedOption().text()).click(toggleDiv);
-    var dropdownIcon = $("<span>&#9660;</span>").appendTo(selection);
+	  var value = $("<span class='value' />").click(toggleDiv);
+    var icon = $("<span class='icon'>&#9660;</span>").click(toggleDiv);
+	  var selection = parentDiv.find('div.' + options.selectionClass).html('').append(value).append(icon);
 
 	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
 	  select.children("option").each(function(){
 	    var option = $(this);
-      var li = $("<li></li>").html(option.text()).appendTo(list).data('snazzy.option', option);
+      var li = $("<li />").html(option.text()).appendTo(list).data('snazzy.option', option);
       option.data('snazzy.element', li);
       li.hover(onHover);
       li.click(onClick);
@@ -60,7 +61,7 @@ $('select').snazzySelect();
 	  function hideIfSelectionNotClicked(e) {
 	    var clicked = $(e.target);
 	    //clicked.is(selection) doesn't work here
-      if (clicked.text() != selection.text()) {
+      if (clicked.html() != value.html() && clicked.html() != icon.html()) {
         hide();
       }
 	  }
@@ -71,11 +72,10 @@ $('select').snazzySelect();
       setTimeout(changeSelection, 0);
     }
 	  function changeSelection() {
-  	  selection.empty().html(selectedOption().text()).append(dropdownIcon);
+  	  value.html(selectedOption().text());
 	    hide();
 	  }
   	function toggleDiv(e){
-  	  e.stopPropagation();
   	  if (list.is(":hidden")) {
   	    show();
   	  } else if (list.is(":visible")) {
@@ -91,7 +91,7 @@ $('select').snazzySelect();
 	    selection.addClass(options.activeClass);
   	  list.show();
   	  $(document).keydown(keyPressed);
-  	  $(document).click(hideIfSelectionNotClicked);
+      $(document).click(hideIfSelectionNotClicked);
   	}
   	function hide() {
   	  selection.removeClass(options.activeClass);

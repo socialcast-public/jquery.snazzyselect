@@ -1,10 +1,6 @@
 require("spec_helper.js");
 require("../jquery.snazzyselect.js");
 
-function removeIcon(div) {
-  return div.html().replace(/\<.*/, '');
-}
-
 Screw.Unit(function(){
   describe("Snazzy Select", function(){
     before(function() { 
@@ -15,12 +11,13 @@ Screw.Unit(function(){
       div = $('<div />').appendTo(container).addClass('snazzy_selected');
       select = $('<select />').appendTo(container).append('<option>Everyone</option>').append("<option selected='selected' value='sean'>Sean Cashin</option>").append("<option value='ryan'>Ryan Sonnek</option>").snazzySelect();
       snazzySelect = $('ul.snazzy_select');
+      value = div.find('.value');
     });
     it("automatically hides the select input", function(){
       expect(select.is(":hidden")).to(equal, true);
     });
     it("initializes div with text from selected option", function(){
-      expect(removeIcon(div)).to(equal, 'Sean Cashin');
+      expect(value.html()).to(equal, 'Sean Cashin');
     });
     it('automatically creates a hidden unordered list with options from select input', function() {
       expect(snazzySelect.size()).to(equal, 1);
@@ -32,14 +29,14 @@ Screw.Unit(function(){
       select.change(function() {
         changed = true;
       });
-      div.click();
+      value.click();
       snazzySelect.find('li:last').click();
       expect(changed).to(equal, true);
     });
 
-    describe("clicking on the div", function() {
+    describe("clicking on the current value", function() {
       before(function() {
-        div.click();
+        value.click();
       });
       it('shows the snazzy list', function(){
         expect(snazzySelect.is(":visible")).to(equal, true);
@@ -51,17 +48,17 @@ Screw.Unit(function(){
 
     describe("clicking on the dropdown icon", function() {
       before(function() {
-        div.find('span').click();
+        div.find('.icon').click();
       });
       it('shows the snazzy list', function(){
         expect(snazzySelect.is(":visible")).to(equal, true);
       });
     });
 
-    describe("clicking on the div twice", function() {
+    describe("clicking on the current value twice", function() {
       before(function() {
-        div.click();
-        div.click();
+        value.click();
+        value.click();
       });
       it('hides the snazzy list', function(){
         expect(snazzySelect.is(":visible")).to(equal, false);
@@ -70,7 +67,7 @@ Screw.Unit(function(){
 
     describe("clicking on another element after dropdown is visible", function() {
       before(function() {
-        div.click();
+        value.click();
         $('#some_other_text').click();
       });
       it('hides the snazzy list', function(){
@@ -80,12 +77,12 @@ Screw.Unit(function(){
 
     describe("selecting element from list via mouse click", function() {
       before(function(){
-        div.click();
+        value.click();
         selected = snazzySelect.find('li:last');
         selected.click();
       });
-      it('updates text of div to match text of selected element', function(){
-        expect(removeIcon(div)).to(equal, selected.text());
+      it('updates text of current value to match text of selected element', function(){
+        expect(value.html()).to(equal, selected.text());
       });
       it('hides snazzy list', function(){
         expect(snazzySelect.is(":hidden")).to(equal, true);
@@ -94,65 +91,65 @@ Screw.Unit(function(){
 
     describe('keyboard navigation', function() {
       it('down arrow hovers over next result', function() {
-        div.click();
+        value.click();
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.DOWN;
         e.keyCode = $.SnazzySelect.KEYS.DOWN;
-      	div.trigger(e);
+      	value.trigger(e);
 
         expect(snazzySelect.find('li.snazzy_hover').text()).to(equal, 'Ryan Sonnek');
       });
       it('up arrow hovers over previous result', function() {
-        div.click();
+        value.click();
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.UP;
         e.keyCode = $.SnazzySelect.KEYS.UP;
-      	div.trigger(e);
+      	value.trigger(e);
 
         expect(snazzySelect.find('li.snazzy_hover').text()).to(equal, 'Everyone');
       });
       it('escape key hides the snazzy select dropdown', function() {
-        div.click();
+        value.click();
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.ESCAPE;
         e.keyCode = $.SnazzySelect.KEYS.ESCAPE;
-      	div.trigger(e);
+      	value.trigger(e);
 
         expect(snazzySelect.is(':hidden')).to(equal, true);
       });
       it('return selects highlighted element', function() {
-        div.click();
+        value.click();
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.UP;
         e.keyCode = $.SnazzySelect.KEYS.UP;
-      	div.trigger(e);
+      	value.trigger(e);
 
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.RETURN;
         e.keyCode = $.SnazzySelect.KEYS.RETURN;
-      	div.trigger(e);
+      	value.trigger(e);
 
-        expect(removeIcon(div)).to(equal, 'Everyone');
+        expect(value.html()).to(equal, 'Everyone');
       });
       it('tab selects highlighted element', function() {
-        div.click();
+        value.click();
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.UP;
         e.keyCode = $.SnazzySelect.KEYS.UP;
-      	div.trigger(e);
+      	value.trigger(e);
 
         e = $.Event("keydown");
         e.which = $.SnazzySelect.KEYS.TAB;
         e.keyCode = $.SnazzySelect.KEYS.TAB;
-      	div.trigger(e);
+      	value.trigger(e);
 
-        expect(removeIcon(div)).to(equal, 'Everyone');
+        expect(value.html()).to(equal, 'Everyone');
       });
     });
 
     describe("resetting the form", function() {
       before(function() {
-        div.click();
+        value.click();
         selected = snazzySelect.find('li:last');
         selected.click();
         form.each(function(){
@@ -162,7 +159,7 @@ Screw.Unit(function(){
       it('resets the selected text after event triggered', function() {
         //this test fails because the assertion runs before the reset handler
         //need to find a way to run this test after the setTimeout callback fires
-        //expect(removeIcon(div)).to(equal, 'Everyone');
+        //expect(value.html()).to(equal, 'Everyone');
       });
     });
 
