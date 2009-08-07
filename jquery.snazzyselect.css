@@ -3,8 +3,8 @@ div.snazzy_selected {
   cursor: pointer;
   z-index: 100;
   position: relative; }
-  div.snazzy_selected span {
-    margin-left: 2px; }
+  div.snazzy_selected span.icon {
+    padding-left: 2px; }
 
 ul.snazzy_select {
   padding: 3px;
