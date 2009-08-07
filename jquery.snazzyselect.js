@@ -43,7 +43,7 @@ $('select').snazzySelect();
 	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
 	  select.children("option").each(function(){
 	    var option = $(this);
-      var li = $("<li />").html(option.text()).appendTo(list).data('snazzy.option', option);
+      var li = $("<li />").html(option.text()).appendTo(list).data('snazzy.option', option).attr('class', option.attr('class'));
       option.data('snazzy.element', li);
       li.hover(onHover);
       li.click(onClick);

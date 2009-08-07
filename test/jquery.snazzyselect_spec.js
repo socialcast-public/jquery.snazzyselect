@@ -9,7 +9,7 @@ Screw.Unit(function(){
       form = $('<form />').appendTo(fixtures);
       var container = $('<div />').appendTo(form);
       div = $('<div />').appendTo(container).addClass('snazzy_selected');
-      select = $('<select />').appendTo(container).append('<option>Everyone</option>').append("<option selected='selected' value='sean'>Sean Cashin</option>").append("<option value='ryan'>Ryan Sonnek</option>").snazzySelect();
+      select = $('<select />').appendTo(container).append('<option class="awesome">Everyone</option>').append("<option selected='selected' value='sean'>Sean Cashin</option>").append("<option value='ryan'>Ryan Sonnek</option>").snazzySelect();
       snazzySelect = $('ul.snazzy_select');
       value = div.find('.value');
     });
@@ -23,6 +23,9 @@ Screw.Unit(function(){
       expect(snazzySelect.size()).to(equal, 1);
       expect(snazzySelect.is(':hidden')).to(equal, true);
       expect(snazzySelect.find('li').size()).to(equal, 3);
+    });
+    it("preserves class attribute from option to list element", function(){
+      expect(snazzySelect.find('li.awesome').size()).to(equal, 1);
     });
     it('fires change listener when element selected', function() {
       var changed = false;
