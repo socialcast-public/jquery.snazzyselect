@@ -72,8 +72,8 @@ $('select').snazzySelect();
       setTimeout(changeSelection, 0);
     }
 	  function changeSelection() {
-  	  value.html(selectedOption().text());
 	    hide();
+  	  value.html(selectedOption().text());
 	  }
   	function toggleDiv(e){
   	  if (list.is(":hidden")) {
@@ -94,8 +94,8 @@ $('select').snazzySelect();
       $(document).click(hideIfSelectionNotClicked);
   	}
   	function hide() {
-  	  selection.removeClass(options.activeClass);
   	  list.hide();
+  	  selection.removeClass(options.activeClass);
   	  $(document).unbind('keydown', keyPressed);
   	  $(document).unbind('click', hideIfSelectionNotClicked);
   	}
