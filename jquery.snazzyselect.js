@@ -40,7 +40,7 @@ $('select').snazzySelect();
     var icon = $("<span class='icon'>&#9660;</span>").click(toggleDiv).attr('id', randomId());
 	  var selection = parentDiv.find('div.' + options.selectionClass).html('').append(value).append(icon);
 
-	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
+	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body'));
 	  select.children("option").each(function(){
 	    var option = $(this);
       var li = $("<li />").html(option.text()).appendTo(list).data('snazzy.option', option).attr('class', option.attr('class'));
