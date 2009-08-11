@@ -36,8 +36,8 @@ $('select').snazzySelect();
 	  var select = $(e).hide();
 	  var parentDiv = select.parent('div');
 	  select.closest('form').bind('reset', resetForm);
-	  var value = $("<span class='value' />").click(toggleDiv);
-    var icon = $("<span class='icon'>&#9660;</span>").click(toggleDiv);
+	  var value = $("<span class='value' />").click(toggleDiv).attr('id', randomId());
+    var icon = $("<span class='icon'>&#9660;</span>").click(toggleDiv).attr('id', randomId());
 	  var selection = parentDiv.find('div.' + options.selectionClass).html('').append(value).append(icon);
 
 	  var list = $("<ul></ul>").addClass(options.listClass).hide().appendTo($('body')).bind('positionList', positionList);
@@ -58,10 +58,13 @@ $('select').snazzySelect();
 	  select.change(changeSelection);
 	  changeSelection();
 
+    function randomId() {
+      return 'snazzy_' + Math.floor(Math.random() * 100000000);
+    }
 	  function hideIfSelectionNotClicked(e) {
 	    var clicked = $(e.target);
 	    //clicked.is(selection) doesn't work here
-      if (clicked.html() != value.html() && clicked.html() != icon.html()) {
+      if (clicked.attr('id') != value.attr('id') && clicked.attr('id') != icon.attr('id')) {
         hide();
       }
 	  }
